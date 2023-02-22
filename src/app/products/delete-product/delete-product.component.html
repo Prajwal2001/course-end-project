@@ -1,0 +1,9 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Are you sure you want to delete product <b>{{ product.name }}</b> </mat-card-title>
+    </mat-card-header>
+    <mat-card-actions>
+        <a (click)="onDeleteClicked()" class="btn btn-delete">Delete</a>
+        <a (click)="onCancelClicked()" class="btn btn-cancel">Cancel</a>
+    </mat-card-actions>
+</mat-card>

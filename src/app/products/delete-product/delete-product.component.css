@@ -1,0 +1,18 @@
+.btn {
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 2px white;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.btn-delete {
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+}
+
+.btn-cancel {
+    background-color: rgba(0, 255, 0, 0.7);
+    color: white;
+}

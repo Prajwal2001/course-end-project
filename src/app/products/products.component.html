@@ -1,0 +1,32 @@
+<h1>Welcome to Product Management</h1>
+<hr>
+<div class="add-search-div" style="display: flex; justify-content: space-between; top: 10px">
+    <button mat-raised-button color="primary" class="add-product" (click)="onAddNewProductClicked()">
+        <mat-icon>add_box</mat-icon>
+        <div class="add-product-text">Add Product</div>
+    </button>
+    <div style="display: flex; align-items: center;"><input class="search-input" placeholder="search"
+            [formControl]="searchText" type="text"></div>
+</div>
+<h1 *ngIf="!products" style="display: flex; justify-content: center;">No products to display!</h1>
+<cdk-accordion class="example-accordion accordion-header">
+    <cdk-accordion-item #accordionItem="cdkAccordionItem" class="example-accordion-item"
+        role="button" tabindex="0" [attr.id]="'accordion-header'" [attr.aria-expanded]="accordionItem.expanded"
+        [attr.aria-controls]="'accordion-body-'">
+        <div class="example-accordion-item-header">
+            <div class="product-name-img">
+                <div class="img-holder">
+                    Image
+                </div>
+                Name
+            </div>
+            <div class="header-title-text">Amount</div>
+            <div class="header-title-text">Quantity</div>
+            <div class="example-accordion-item-description">
+            </div>
+        </div>
+    </cdk-accordion-item>
+    <app-product *ngFor="let product of products | filter: searchText.value; let id = index;" [id]="product.id"
+        [product]="product">
+    </app-product>
+</cdk-accordion>

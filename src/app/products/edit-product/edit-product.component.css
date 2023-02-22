@@ -1,0 +1,51 @@
+form {
+  position: relative;
+  top: 50px;
+}
+
+.input-table {
+  border: 1px solid black;
+  border-radius: 10%;
+  padding: 50px;
+}
+
+input {
+  height: 30px;
+  border-radius: 10px;
+}
+
+textarea {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.btn {
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 2px black;
+}
+
+.btn-submit {
+  background-color: rgba(0, 255, 0, 0.8);
+}
+
+.btn-submit:hover {
+  background-color: rgba(0, 255, 0, 0.5);
+}
+
+.btn-reset {
+  background-color: rgba(255, 165, 0, 0.8);
+}
+
+.btn-reset:hover {
+  background-color: rgba(255, 165, 0, 0.5);
+}
+
+.btn-clear {
+  background-color: rgba(255, 0, 0, 0.8);
+}
+
+.btn-clear:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}

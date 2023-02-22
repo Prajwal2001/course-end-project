@@ -1,0 +1,29 @@
+<cdk-accordion-item #accordionItem="cdkAccordionItem" class="example-accordion-item" role="button" tabindex="0"
+    [attr.id]="'accordion-header-' + id" [attr.aria-expanded]="accordionItem.expanded"
+    [attr.aria-controls]="'accordion-body-' + id">
+    <div class="example-accordion-item-header" (click)="onAccordionItemClicked()">
+        <div class="product-name-img">
+            <div class="img-holder">
+                <img [src]="product.imgUrl" [alt]="product.name" class="thumb-nail">
+            </div>
+            {{ product.name }}
+        </div>
+        <div *ngIf="!accordionItem.expanded" style="width: 150px; display: flex; justify-content: center;">{{ "₹" + product.amount }}</div>
+        <div *ngIf="!accordionItem.expanded" style="width: 150px; display: flex; justify-content: center;">{{  product.quantity }}</div>
+        <div class="example-accordion-item-description">
+            <mat-icon *ngIf="!accordionItem.expanded">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="accordionItem.expanded">keyboard_arrow_up</mat-icon>
+        </div>
+    </div>
+    <div class="example-accordion-item-body" role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
+        [attr.id]="'accordion-body-' + id" [attr.aria-labelledby]="'accordion-header-' + id">
+        <img [src]="product.imgUrl" [alt]="product.name" style="height: 200px;">
+        <p>Name: <b>{{ product.name }}</b></p>
+        <p>Amount: <b>₹{{ product.amount }}</b></p>
+        <p>Quantity: <b>{{ product.quantity }}</b></p>
+        <p>Description: {{ product.description }}</p>
+        <a class="btn edit-btn" [routerLink]="[id, 'edit']">Edit</a> 
+        <a class="btn delete-btn" [routerLink]="[id, 'delete']">Delete</a> 
+    </div>
+    <router-outlet></router-outlet>
+</cdk-accordion-item>
