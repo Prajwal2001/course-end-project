@@ -15,6 +15,8 @@ export class EditProductComponent implements OnInit {
   product: Product = null;
   id: string;
 
+  fetching = false;
+
   name: FormControl;
   amount: FormControl;
   quantity: FormControl;
@@ -29,7 +31,14 @@ export class EditProductComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         if (params['id']) {
-          this.product = this.productService.getProduct(params['id']);
+          this.fetching = true;
+          this.productService.getProduct(params['id']).subscribe(
+            product => {
+              this.product = product;
+              console.log(this.product);
+              this.fetching = false;
+            }
+          )
           this.id = params['id'];
         }
       }
@@ -52,6 +61,7 @@ export class EditProductComponent implements OnInit {
         this.productService.addProduct(product);
       }
       this.router.navigate(["products"]);
+      // setTimeout(() => {this.router.navigate(["products"])}, 3000);
     } else {
       alert("Not valid");
     }

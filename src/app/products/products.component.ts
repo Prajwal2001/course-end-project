@@ -14,6 +14,7 @@ export class ProductsComponent implements OnInit {
 
   searchText: FormControl = new FormControl('');
   products: Product[];
+  fetching = false;
 
   constructor(public productService: ProductService,
     private router: Router,
@@ -25,7 +26,13 @@ export class ProductsComponent implements OnInit {
         this.products = products;
       }
     )
-    this.products = this.productService.getProducts();
+    this.fetching = true;
+    this.productService.getProducts().subscribe(
+      products => {
+        this.products = products;
+        this.fetching = false;
+      }
+    )
     // this.products = this.productService.getProducts();
     document.title = "Product Management";
   }

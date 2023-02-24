@@ -1,4 +1,5 @@
-<mat-card>
+<h1 *ngIf="fetching">Fetching....</h1>
+<mat-card *ngIf="!fetching">
     <mat-card-header>
         <mat-card-title>Are you sure you want to delete product <b>{{ product.name }}</b> </mat-card-title>
     </mat-card-header>

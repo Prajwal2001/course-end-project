@@ -1,4 +1,5 @@
-<form>
+<h1 *ngIf="fetching">Fetching...</h1>
+<form *ngIf="!fetching">
     <table class="input-table">
         <tr class="table-row">
             <td><label for="name">Product Name: </label></td>
