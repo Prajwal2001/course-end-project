@@ -21,11 +21,11 @@ export class ProductsComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.productService.productsChanged.subscribe(
-      (products) => {
-        this.products = products;
-      }
-    )
+    // this.productService.productsChanged.subscribe(
+    //   (products) => {
+    //     this.products = products;
+    //   }
+    // )
     this.fetching = true;
     this.productService.getProducts().subscribe(
       products => {

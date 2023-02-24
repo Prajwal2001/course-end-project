@@ -64,12 +64,21 @@ export class ProductService {
   }
 
   updateProduct(product: Product, id: string) {
-    for (let i = 0; i < this.products.length; i++) {
-      if (id === this.products[i].id) {
-        this.products[i] = { ...product };
+    console.log(JSON.stringify(product), id);
+    this.getProducts().subscribe(
+      {
+        next: products => {
+          this.products = products;
+        },
+        complete: () => {
+          for (let i = 0; i < this.products.length; i++) {
+            if (this.products[i].id == id)
+              this.products[i] = product;
+          }
+          this.http.put(this.URL, this.products).subscribe(res => res);
+        }
       }
-    }
-    // this.productsChanged.next(this.products.slice());
+    )
   }
 
 }

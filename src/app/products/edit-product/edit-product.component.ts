@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormControl, Validators } from '@angular/forms';
+import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product } from '../product.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../product.service';
@@ -17,17 +17,20 @@ export class EditProductComponent implements OnInit {
 
   fetching = false;
 
-  name: FormControl;
-  amount: FormControl;
-  quantity: FormControl;
-  desc: FormControl;
-  imgUrl: FormControl;
+  form: FormGroup
 
   constructor(private route: ActivatedRoute,
     private productService: ProductService,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      name: new FormControl(),
+      quantity: new FormControl(),
+      amount: new FormControl(),
+      imgUrl: new FormControl(),
+      description: new FormControl()
+    })
     this.route.params.subscribe(
       params => {
         if (params['id']) {
@@ -36,6 +39,13 @@ export class EditProductComponent implements OnInit {
             product => {
               this.product = product;
               console.log(this.product);
+              this.form.patchValue({
+                name: this.product.name,
+                quantity: this.product.quantity,
+                amount: this.product.amount,
+                imgUrl: this.product.imgUrl,
+                description: this.product.description
+              });
               this.fetching = false;
             }
           )
@@ -43,18 +53,12 @@ export class EditProductComponent implements OnInit {
         }
       }
     )
-    this.name = new FormControl(this.product ? this.product.name : '', [Validators.required]);
-    this.amount = new FormControl(this.product ? this.product.amount : 0, [Validators.required]);
-    this.desc = new FormControl(this.product ? this.product.description : '', [Validators.required]);
-    this.imgUrl = new FormControl(this.product ? this.product.imgUrl : '', [Validators.required]);
-    this.quantity = new FormControl(this.product ? this.product.quantity : 1, [Validators.min(1), Validators.required]);
   }
 
   onSubmit() {
     let uuid = uuidv4();
-    console.log(uuid);
-    const product = new Product(this.name.value, this.desc.value, this.quantity.value, this.amount.value, this.imgUrl.value, this.product ? this.product.id : uuid);
-    if (this.name.valid && this.amount.valid && this.quantity.valid && this.desc.valid && this.imgUrl.valid) {
+    const product = new Product(this.form.controls["name"].value, this.form.controls["description"].value, this.form.controls["quantity"].value, this.form.controls["amount"].value, this.form.controls["imgUrl"].value, this.product ? this.product.id : uuid);
+    if (this.form.valid) {
       if (this.product) {
         this.productService.updateProduct(product, this.id);
       } else {
@@ -72,11 +76,7 @@ export class EditProductComponent implements OnInit {
   }
 
   onReset() {
-    this.name.reset('');
-    this.quantity.reset(1);
-    this.amount.reset(0);
-    this.imgUrl.reset('');
-    this.desc.reset('');
+    this.form.reset();
   }
 
 }
