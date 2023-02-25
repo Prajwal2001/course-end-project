@@ -25,12 +25,7 @@ export class DeleteProductComponent implements OnInit {
       params => {
         this.id = params['id'];
         this.fetching = true;
-        this.productService.getProduct(this.id).subscribe(
-          product => {
-            this.product = product;
-            this.fetching = false;
-          }
-        )
+        this. product  = this.productService.getProduct(this.id)
       }
     )
   }

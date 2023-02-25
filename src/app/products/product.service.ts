@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class ProductService {
 
-  products: Product[] | any;
-  productsChanged = new Subject<Product[]>();
+  products: Product[];
+  productsChanged = new Subject<{ products: Product[], changedAt: string }>();
   static isFetching: boolean;
 
   URL = "https://product-management-d65eb-default-rtdb.firebaseio.com/products.json";
@@ -30,54 +30,63 @@ export class ProductService {
   }
 
   getProducts() {
-    return this.http.get<Product[]>(this.URL)
+      this.http.get<Product[]>(this.URL).subscribe(
+        products => {
+          this.products = products.slice();
+          this.productsChanged.next({ products: this.products.slice(), changedAt: "getProducts" });
+        }
+      )
   }
 
   getProduct(id: string) {
-    return this.getProducts().pipe(
-      map(products => products.filter(product => product.id === id)[0])
-    )
+    return this.products.filter(product => product.id === id)[0];
   }
 
   deleteProduct(id: string) {
-    this.products = [];
-    this.getProducts().subscribe({
-      next: products => {
-        for (let i = 0; i < products.length; i++) {
-          if (id !== products[i].id) {
-            this.products.push(this.products[i]);
-          }
-        }
-      },
-      complete: () => { this.http.put(this.URL, this.products).subscribe(res => res); }
-    })
+
+    // this.products = [];
+    // this.getProducts().subscribe({
+    //   next: products => {
+    //     for (let i = 0; i < products.length; i++) {
+    //       if (id !== products[i].id) {
+    //         this.products.push(this.products[i]);
+    //       }
+    //     }
+    //   },
+    //   complete: () => { this.http.put(this.URL, this.products).subscribe(res => res); }
+    // })
     // this.products = products.slice();
     // this.productsChanged.next(this.products.slice());
   }
 
   addProduct(product: Product) {
-    this.getProducts().subscribe(
-      products => {
-        this.http.put(this.URL, [...products, product]).subscribe(res => res);
-      }
-    )
+    this.products.push(product)
+    return this.http.put(this.URL, this.products);
   }
 
   updateProduct(product: Product, id: string) {
-    this.getProducts().subscribe(
-      {
-        next: products => {
-          this.products = products;
-        },
-        complete: () => {
-          for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == id)
-              this.products[i] = product;
-          }
-          this.http.put(this.URL, this.products).subscribe(res => res);
-        }
+    // this.getProducts().subscribe(
+    //   {
+    //     next: products => {
+    //       this.products = products;
+    //     },
+    //     complete: () => {
+    //       for (let i = 0; i < this.products.length; i++) {
+    //         if (this.products[i].id == id)
+    //           this.products[i] = product;
+    //       }
+    //       this.http.put(this.URL, this.products).subscribe(res => res);
+    //     }
+    //   }
+    // )
+    for (let i = 0; i < this.products.length; i++) {
+      if (this.products[i].id === id) {
+        this.products[i] = product;
+        this.productsChanged.next({ products: this.products.slice(), changedAt: "Update" });
+        break;
       }
-    )
+    }
+    return this.http.put(this.URL, this.products);
   }
 
 }

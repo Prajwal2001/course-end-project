@@ -21,19 +21,15 @@ export class ProductsComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit(): void {
-    // this.productService.productsChanged.subscribe(
-    //   (products) => {
-    //     this.products = products;
-    //   }
-    // )
     this.fetching = true;
-    this.productService.getProducts().subscribe(
-      products => {
-        this.products = products;
+    this.productService.getProducts();
+    this.productService.productsChanged.subscribe(
+      changedProducts => {
+        console.log(changedProducts);
+        this.products = changedProducts.products.slice();
         this.fetching = false;
       }
     )
-    // this.products = this.productService.getProducts();
     document.title = "Product Management";
   }
 

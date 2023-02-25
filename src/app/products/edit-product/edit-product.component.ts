@@ -24,35 +24,22 @@ export class EditProductComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      name: new FormControl(),
-      quantity: new FormControl(),
-      amount: new FormControl(),
-      imgUrl: new FormControl(),
-      description: new FormControl()
-    })
     this.route.params.subscribe(
       params => {
         if (params['id']) {
-          this.fetching = true;
-          this.productService.getProduct(params['id']).subscribe(
-            product => {
-              this.product = product;
-              this.form.patchValue({
-                name: this.product.name,
-                quantity: this.product.quantity,
-                amount: this.product.amount,
-                imgUrl: this.product.imgUrl,
-                description: this.product.description
-              });
-              this.fetching = false;
-            }
-          )
+          this.product = this.productService.getProduct(params['id']);
           this.id = params['id'];
         }
       }
-    )
-  }
+      )
+      this.form = new FormGroup({
+        name: new FormControl(this.product ? this.product.name : ''),
+        quantity: new FormControl(this.product ? this.product.quantity : 1),
+        amount: new FormControl(this.product ? this.product.amount : 1),
+        imgUrl: new FormControl(this.product ? this.product.imgUrl : ''),
+        description: new FormControl(this.product ? this.product.description : '')
+      })
+    }
 
   onSubmit() {
     let uuid = uuidv4();
@@ -66,12 +53,14 @@ export class EditProductComponent implements OnInit {
     );
     if (this.form.valid) {
       if (this.product) {
-        this.productService.updateProduct(product, this.id);
+        this.productService.updateProduct(product, this.id).subscribe(res => {
+          this.router.navigate(['products']);
+        });
       } else {
-        this.productService.addProduct(product);
+        this.productService.addProduct(product).subscribe(res => {
+          this.router.navigate(['products']);
+        });
       }
-      this.router.navigate(["products"]);
-      // setTimeout(() => {this.router.navigate(["products"])}, 3000);
     } else {
       alert("Not valid");
     }

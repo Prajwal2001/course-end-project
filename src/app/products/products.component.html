@@ -8,7 +8,7 @@
     <div style="display: flex; align-items: center;"><input class="search-input" placeholder="search"
             [formControl]="searchText" type="text"></div>
 </div>
-<h1 *ngIf="fetching">Fetching....</h1>
+<h1 *ngIf="fetching">Fetching....{{ fetching }}</h1>
 <h1 *ngIf="!fetching && !products" style="display: flex; justify-content: center;">No products to display!</h1>
 <cdk-accordion class="example-accordion accordion-header" *ngIf="!fetching">
     <cdk-accordion-item #accordionItem="cdkAccordionItem" class="example-accordion-item"
