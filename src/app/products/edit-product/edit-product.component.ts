@@ -38,7 +38,6 @@ export class EditProductComponent implements OnInit {
           this.productService.getProduct(params['id']).subscribe(
             product => {
               this.product = product;
-              console.log(this.product);
               this.form.patchValue({
                 name: this.product.name,
                 quantity: this.product.quantity,
@@ -57,7 +56,14 @@ export class EditProductComponent implements OnInit {
 
   onSubmit() {
     let uuid = uuidv4();
-    const product = new Product(this.form.controls["name"].value, this.form.controls["description"].value, this.form.controls["quantity"].value, this.form.controls["amount"].value, this.form.controls["imgUrl"].value, this.product ? this.product.id : uuid);
+    const product = new Product(
+      this.form.controls["name"].value,
+      this.form.controls["description"].value,
+      this.form.controls["quantity"].value,
+      this.form.controls["amount"].value,
+      this.form.controls["imgUrl"].value,
+      this.product ? this.product.id : uuid
+    );
     if (this.form.valid) {
       if (this.product) {
         this.productService.updateProduct(product, this.id);

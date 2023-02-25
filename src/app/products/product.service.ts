@@ -64,7 +64,6 @@ export class ProductService {
   }
 
   updateProduct(product: Product, id: string) {
-    console.log(JSON.stringify(product), id);
     this.getProducts().subscribe(
       {
         next: products => {
