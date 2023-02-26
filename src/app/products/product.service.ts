@@ -41,12 +41,12 @@ export class ProductService {
       }
     }
     this.products = newProducts.slice();
-    return this.http.put(this.URL, this.products);
+    return this.http.delete(this.URL + "/" + id);
   }
 
   addProduct(product: Product) {
     this.products.push(product);
-    return this.http.put(this.URL, this.products);
+    return this.http.post(this.URL, product);
   }
 
   updateProduct(product: Product, id: string) {
@@ -57,7 +57,7 @@ export class ProductService {
         break;
       }
     }
-    return this.http.put(this.URL, this.products);
+    return this.http.put(this.URL, product);
   }
 
 }

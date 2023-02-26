@@ -1,10 +1,6 @@
-<h1 *ngIf="fetching">Fetching....</h1>
-<mat-card *ngIf="!fetching">
-    <mat-card-header>
-        <mat-card-title>Are you sure you want to delete product <b>{{ product.name }}</b> </mat-card-title>
-    </mat-card-header>
-    <mat-card-actions>
-        <a (click)="onDeleteClicked()" class="btn btn-delete">Delete</a>
-        <a (click)="onCancelClicked()" class="btn btn-cancel">Cancel</a>
-    </mat-card-actions>
-</mat-card>
+<img *ngIf="fetching" src="assets/images/infinity-loader.svg" alt="loader">
+<div class="delete-body" style="padding: 50px; position: relative; top: 100px; border-style: solid; border-width: 2px; border-radius: 10px; border-color: black;">
+    <h3>Are you sure you want to delete product <b>{{ product.name }}</b></h3>
+    <a (click)="onDeleteClicked()" class="btn btn-delete">Delete</a>
+    <a (click)="onCancelClicked()" class="btn btn-cancel">Cancel</a>
+</div>
