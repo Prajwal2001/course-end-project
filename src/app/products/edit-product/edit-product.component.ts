@@ -33,23 +33,22 @@ export class EditProductComponent implements OnInit {
       }
       )
       this.form = new FormGroup({
-        name: new FormControl(this.product ? this.product.name : ''),
-        quantity: new FormControl(this.product ? this.product.quantity : 1),
-        amount: new FormControl(this.product ? this.product.amount : 1),
-        imgUrl: new FormControl(this.product ? this.product.imgUrl : ''),
-        description: new FormControl(this.product ? this.product.description : '')
+        name: new FormControl(this.product ? this.product.name : '', [Validators.required]),
+        quantity: new FormControl(this.product ? this.product.quantity : 1, [Validators.required, Validators.min(1), Validators.max(10)]),
+        amount: new FormControl(this.product ? this.product.amount : 1, [Validators.required, Validators.min(1)]),
+        imgUrl: new FormControl(this.product ? this.product.imgUrl : '', [Validators.required]),
+        description: new FormControl(this.product ? this.product.description : '', [Validators.required])
       })
     }
 
   onSubmit() {
-    let uuid = uuidv4();
     const product = new Product(
       this.form.controls["name"].value,
       this.form.controls["description"].value,
       this.form.controls["quantity"].value,
       this.form.controls["amount"].value,
       this.form.controls["imgUrl"].value,
-      this.product ? this.product.id : uuid
+      this.product ? this.product.id : uuidv4()
     );
     if (this.form.valid) {
       if (this.product) {

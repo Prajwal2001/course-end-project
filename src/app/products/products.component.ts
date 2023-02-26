@@ -24,9 +24,8 @@ export class ProductsComponent implements OnInit {
     this.fetching = true;
     this.productService.getProducts();
     this.productService.productsChanged.subscribe(
-      changedProducts => {
-        console.log(changedProducts);
-        this.products = changedProducts.products.slice();
+      products => {
+        this.products = products.slice();
         this.fetching = false;
       }
     )

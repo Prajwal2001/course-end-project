@@ -21,18 +21,22 @@ export class DeleteProductComponent implements OnInit {
   fetching = false;
 
   ngOnInit(): void {
+    this.fetching = true;
     this.route.params.subscribe(
       params => {
         this.id = params['id'];
-        this.fetching = true;
-        this. product  = this.productService.getProduct(this.id)
+        this. product = this.productService.getProduct(this.id);
+        this.fetching = false;
       }
     )
   }
 
   onDeleteClicked() {
-    this.productService.deleteProduct(this.id);
-    this.router.navigate(['products']);
+    this.productService.deleteProduct(this.id).subscribe(
+      res => {
+        this.router.navigate(['products']);
+      }
+    )
   }
 
   onCancelClicked() {

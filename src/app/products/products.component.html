@@ -9,8 +9,8 @@
             [formControl]="searchText" type="text"></div>
 </div>
 <h1 *ngIf="fetching">Fetching....{{ fetching }}</h1>
-<h1 *ngIf="!fetching && !products" style="display: flex; justify-content: center;">No products to display!</h1>
-<cdk-accordion class="example-accordion accordion-header" *ngIf="!fetching">
+<h1 *ngIf="!fetching && !products.length" style="display: flex; justify-content: center;">No products to display!</h1>
+<cdk-accordion class="example-accordion accordion-header" *ngIf="!fetching && products.length">
     <cdk-accordion-item #accordionItem="cdkAccordionItem" class="example-accordion-item"
         role="button" tabindex="0" [attr.id]="'accordion-header'" [attr.aria-expanded]="accordionItem.expanded"
         [attr.aria-controls]="'accordion-body-'">
