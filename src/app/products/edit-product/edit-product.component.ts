@@ -16,6 +16,7 @@ export class EditProductComponent implements OnInit {
   id: string;
 
   fetching = false;
+  invalid = false;
 
   form: FormGroup
 
@@ -31,15 +32,15 @@ export class EditProductComponent implements OnInit {
           this.id = params['id'];
         }
       }
-      )
-      this.form = new FormGroup({
-        name: new FormControl(this.product ? this.product.name : '', [Validators.required]),
-        quantity: new FormControl(this.product ? this.product.quantity : 1, [Validators.required, Validators.min(1), Validators.max(10)]),
-        amount: new FormControl(this.product ? this.product.amount : 1, [Validators.required, Validators.min(1)]),
-        imgUrl: new FormControl(this.product ? this.product.imgUrl : '', [Validators.required]),
-        description: new FormControl(this.product ? this.product.description : '', [Validators.required])
-      })
-    }
+    )
+    this.form = new FormGroup({
+      name: new FormControl(this.product ? this.product.name : '', [Validators.required, Validators.minLength(3)]),
+      quantity: new FormControl(this.product ? this.product.quantity : 1, [Validators.required, Validators.min(1), Validators.max(10)]),
+      amount: new FormControl(this.product ? this.product.amount : 1, [Validators.required, Validators.min(1)]),
+      imgUrl: new FormControl(this.product ? this.product.imgUrl : '', [Validators.required]),
+      description: new FormControl(this.product ? this.product.description : '', [Validators.required, Validators.minLength(10)])
+    })
+  }
 
   onSubmit() {
     const product = new Product(
@@ -50,18 +51,23 @@ export class EditProductComponent implements OnInit {
       this.form.controls["imgUrl"].value,
       this.product ? this.product.id : uuidv4()
     );
+
     if (this.form.valid) {
+      this.fetching = true;
       if (this.product) {
         this.productService.updateProduct(product, this.id).subscribe(res => {
+          this.fetching = false;
           this.router.navigate(['products']);
         });
       } else {
         this.productService.addProduct(product).subscribe(res => {
+          this.fetching = false;
           this.router.navigate(['products']);
         });
       }
     } else {
-      alert("Not valid");
+      this.invalid = true;
+      setTimeout(() => { this.invalid = false; }, 2000)
     }
   }
 

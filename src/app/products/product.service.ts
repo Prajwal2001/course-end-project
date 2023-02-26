@@ -13,7 +13,7 @@ export class ProductService {
   products: Product[];
   productsChanged = new Subject<Product[]>();
 
-  URL = "https://product-management-d65eb-default-rtdb.firebaseio.com/products.json";
+  URL = "http://localhost:8080/products";
 
   constructor(
     private http: HttpClient,
