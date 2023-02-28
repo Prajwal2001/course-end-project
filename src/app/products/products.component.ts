@@ -14,19 +14,21 @@ export class ProductsComponent implements OnInit {
 
   searchText: FormControl = new FormControl('');
   products: Product[];
+  fetching = false;
 
   constructor(public productService: ProductService,
     private router: Router,
     private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.fetching = true;
+    this.productService.getProducts();
     this.productService.productsChanged.subscribe(
-      (products) => {
-        this.products = products;
+      products => {
+        this.products = products.slice();
+        this.fetching = false;
       }
     )
-    this.products = this.productService.getProducts();
-    // this.products = this.productService.getProducts();
     document.title = "Product Management";
   }
 

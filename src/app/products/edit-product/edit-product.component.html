@@ -1,31 +1,33 @@
-<form>
+<!-- <h1 *ngIf="fetching"></h1> -->
+<img *ngIf="fetching" src="assets/images/infinity-loader.svg" alt="loader">
+<form *ngIf="!fetching" [formGroup]="form" (ngSubmit)="onSubmit()">
     <table class="input-table">
         <tr class="table-row">
             <td><label for="name">Product Name: </label></td>
-            <td><input type="text" [formControl]="name" name="name"></td>
+            <td><input type="text" formControlName="name" name="name"></td>
         </tr>
         <tr>
             <td><label for="amount">Amount: </label></td>
-            <td><input type="number" min="1" [formControl]="amount" name="amount"></td>
+            <td><input type="number" min="1" formControlName="amount" name="amount"></td>
         </tr>
         <tr>
             <td><label for="quantity">Quantity: </label></td>
-            <td><input type="number" min="1" [formControl]="quantity" name="quantity"></td>
+            <td><input type="number" min="1" formControlName="quantity" name="quantity"></td>
         </tr>
         <tr>
             <td><label for="imgUrl">Image URL: </label></td>
-            <td><input type="text" [formControl]="imgUrl" name="imgUrl"></td>
+            <td><input type="text" formControlName="imgUrl" name="imgUrl"></td>
         </tr>
         <tr>
             <td></td>
-            <td><img [src]="imgUrl.value" style="height: 100px"></td>
+            <td><img [src]="form.controls['imgUrl'].value" style="height: 100px"></td>
         </tr>
         <tr>
             <td><label for="desc">Description: </label></td>
-            <td><textarea name="desc" id="" cols="30" rows="5" [formControl]="desc"></textarea></td>
+            <td><textarea name="desc" id="" cols="30" rows="5" formControlName="description"></textarea></td>
         </tr>
         <tr>
-            <td><button class="btn btn-submit" type="submit" (click)="onSubmit()">Submit</button></td>
+            <td><button class="btn btn-submit" type="submit">Submit</button></td>
             <td><button class="btn btn-reset" type="button" (click)="onReset()">Reset</button></td>
         </tr>
         <tr>
