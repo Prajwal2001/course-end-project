@@ -23,7 +23,7 @@
         <p>Quantity: <b>{{ product.quantity }}</b></p>
         <p>Description: {{ product.description }}</p>
         <a class="btn edit-btn" [routerLink]="[id, 'edit']">Edit</a> 
-        <a class="btn delete-btn" [routerLink]="[id, 'delete']">Delete</a> 
+        <a class="btn delete-btn" (click)="openDialog('200ms', '200ms')">Delete</a> 
     </div>
     <router-outlet></router-outlet>
 </cdk-accordion-item>

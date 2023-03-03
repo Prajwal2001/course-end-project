@@ -8,9 +8,9 @@
     <div style="display: flex; align-items: center;"><input class="search-input" placeholder="search"
             [formControl]="searchText" type="text"></div>
 </div>
-<img *ngIf="fetching" src="assets/images/infinity-loader.svg" alt="loader">
-<h1 *ngIf="!fetching && !products.length" style="display: flex; justify-content: center;">No products to display!</h1>
-<cdk-accordion class="example-accordion accordion-header" *ngIf="!fetching && products.length">
+<img *ngIf="fetching || fetchingTypes" src="assets/images/infinity-loader.svg" alt="loader">
+<h1 *ngIf="!fetching && !fetchingTypes && !products.length" style="display: flex; justify-content: center;">No products to display!</h1>
+<cdk-accordion class="example-accordion accordion-header" *ngIf="!fetching && !fetchingTypes && products.length">
     <cdk-accordion-item #accordionItem="cdkAccordionItem" class="example-accordion-item"
         role="button" tabindex="0" [attr.id]="'accordion-header'" [attr.aria-expanded]="accordionItem.expanded"
         [attr.aria-controls]="'accordion-body-'">

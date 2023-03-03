@@ -4,6 +4,7 @@ import { Product } from './product.model';
 import { Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators'
 import { Router } from '@angular/router';
+import { ProductType } from './product_type.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,12 @@ import { Router } from '@angular/router';
 export class ProductService {
 
   products: Product[];
+  productTypes: ProductType[];
   productsChanged = new Subject<Product[]>();
+  productTypesChanged = new Subject<ProductType[]>();
 
-  URL = "http://localhost:8080/products";
+  PRODUCTS_URL = "http://localhost:8080/products";
+  PRODUCT_TYPES_URL = this.PRODUCTS_URL + "/types";
 
   constructor(
     private http: HttpClient,
@@ -21,14 +25,14 @@ export class ProductService {
   ) {}
 
   getProducts() {
-      this.http.get<Product[]>(this.URL).subscribe(
+      this.http.get<Product[]>(this.PRODUCTS_URL).subscribe(
         products => {
           this.products = products ? products?.slice() : [];
           setTimeout(() => {
             this.productsChanged.next(this.products?.slice());
           }, 1000)
         }
-      )
+      );
   }
 
   getProduct(id: string) {
@@ -43,12 +47,12 @@ export class ProductService {
       }
     }
     this.products = newProducts.slice();
-    return this.http.delete(this.URL + "/" + id);
+    return this.http.delete(this.PRODUCTS_URL + "/" + id);
   }
 
   addProduct(product: Product) {
     this.products.push(product);
-    return this.http.post(this.URL, product);
+    return this.http.post(this.PRODUCTS_URL, product);
   }
 
   updateProduct(product: Product, id: string) {
@@ -59,7 +63,20 @@ export class ProductService {
         break;
       }
     }
-    return this.http.put(this.URL, product);
+    return this.http.put(this.PRODUCTS_URL, product);
+  }
+
+  getProductTypes() {
+    this.http.get<ProductType[]>(this.PRODUCT_TYPES_URL).subscribe(
+      productTypes => {
+        this.productTypes = productTypes ? productTypes.slice() : [];
+        this.productTypesChanged.next(this.productTypes);
+      }
+    )
+  }
+
+  getProductType(id: number) {
+    return this.productTypes.filter(type => type.id === id)[0];
   }
 
 }

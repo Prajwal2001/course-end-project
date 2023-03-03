@@ -9,6 +9,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatDialogModule} from '@angular/material/dialog';
 
 const materialComponents = [
   CdkAccordionModule,
@@ -18,7 +19,8 @@ const materialComponents = [
   MatMenuModule,
   MatCardModule,
   MatGridListModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatDialogModule
 ]
 
 @NgModule({
