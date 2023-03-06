@@ -7,9 +7,9 @@ export class Product {
     id: string;
     addedDate: string;
     lastUpdatedDate: string;
-    productTypeId = 352;
+    productTypeId: number;
 
-    constructor(name: string, description: string, quantity: number, amount: number, imgUrl: string, id: string, addedDate: string, lastUpdatedDate: string) {
+    constructor(name: string, description: string, quantity: number, amount: number, imgUrl: string, id: string, addedDate: string, lastUpdatedDate: string, productTypeId: number) {
         this.name = name;
         this.description = description;
         this.quantity = quantity;
@@ -18,5 +18,6 @@ export class Product {
         this.id = id;
         this.addedDate = addedDate;
         this.lastUpdatedDate = lastUpdatedDate;
+        this.productTypeId = productTypeId;
     }
 }

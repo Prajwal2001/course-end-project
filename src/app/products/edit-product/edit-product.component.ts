@@ -4,6 +4,7 @@ import { Product } from '../product.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../product.service';
 import { v4 as uuidv4 } from 'uuid';
+import { ProductType } from '../product_type.model';
 
 @Component({
   selector: 'app-edit-product',
@@ -14,6 +15,8 @@ export class EditProductComponent implements OnInit {
 
   product: Product = null;
   id: string;
+  productType: ProductType;
+  productTypes: ProductType[];
 
   fetching = false;
   invalid = false;
@@ -29,16 +32,19 @@ export class EditProductComponent implements OnInit {
       params => {
         if (params['id']) {
           this.product = this.productService.getProduct(params['id']);
+          this.productType = this.productService.getProductType(this.product.productTypeId);
           this.id = params['id'];
         }
       }
-    )
+    );
+    this.productTypes = this.productService.productTypes;
     this.form = new FormGroup({
       name: new FormControl(this.product ? this.product.name : '', [Validators.required, Validators.minLength(3)]),
       quantity: new FormControl(this.product ? this.product.quantity : 1, [Validators.required, Validators.min(1), Validators.max(10)]),
       amount: new FormControl(this.product ? this.product.amount : 1, [Validators.required, Validators.min(1)]),
       imgUrl: new FormControl(this.product ? this.product.imgUrl : '', [Validators.required]),
       description: new FormControl(this.product ? this.product.description : '', [Validators.required, Validators.minLength(10)]),
+      productType: new FormControl(this.product ? this.productType.type : "", [Validators.required])
     })
   }
 
@@ -52,7 +58,8 @@ export class EditProductComponent implements OnInit {
       this.form.controls["imgUrl"].value,
       this.product ? this.product.id : uuidv4(),
       this.product ? this.product.addedDate : today,
-      today
+      today,
+      +this.form.controls["productType"].value
     );
 
     if (this.form.valid) {

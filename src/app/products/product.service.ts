@@ -28,9 +28,7 @@ export class ProductService {
       this.http.get<Product[]>(this.PRODUCTS_URL).subscribe(
         products => {
           this.products = products ? products?.slice() : [];
-          setTimeout(() => {
             this.productsChanged.next(this.products?.slice());
-          }, 1000)
         }
       );
   }

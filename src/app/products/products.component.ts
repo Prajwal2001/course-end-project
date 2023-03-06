@@ -53,7 +53,7 @@ export class ProductsComponent implements OnInit {
   }
 
   onAddNewProductClicked() {
-    this.router.navigate(['products','new']);
+    this.router.navigate(['products', 'new']);
   }
 
 }
